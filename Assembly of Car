@@ -48,3 +48,13 @@ Connect black line of right DC motor to – pin on A side of blue block on Ardui
 Right motor will need line extended with breadboard and extra lines to blue block
 Connect red line of left DC motor to + pin on B side of blue block on Arduino motor shield
 Connect black line of left DC motor to – pin on B side of blue block on Arduino motor shield
+Paste code file into IDE
+Make sure Arduino is on correct port
+Click upload button
+Unplug Arduino from computer
+Plug battery pack into Arduino 
+Connect to Arduino via Bluetooth
+Download and open Bluetooth Robo Control
+Tap on select device
+Select Arduino
+Control Arduino Robot 
