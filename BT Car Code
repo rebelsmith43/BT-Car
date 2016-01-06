@@ -1,0 +1,133 @@
+int trigPin = 7; //Sets trig on proximity sensor to pin 7    
+int echoPin = 10; //Sets echo on proximity sensor to pin 10
+long duration, cm; //Sets proximity sensor to measure in cm
+void setup() {
+  pinMode(trigPin, OUTPUT); //Defines output on proximity sensor
+  pinMode(echoPin, INPUT); //Defines input on proximity sensor
+  pinMode(12, OUTPUT); //Sets output pin on motor A direction
+  pinMode(9, OUTPUT); //Sets output pin on motor A breaks
+  pinMode(13, OUTPUT); //Sets output pin on motor B direction
+  pinMode(8, OUTPUT);  //Sets output pin on motor B breaks
+  Serial.begin(9600); //Begins port
+}
+void loop()
+{
+  do{ //Begins do while loop
+  //Sets proximity sensor to measure in cm
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  pinMode(echoPin, INPUT);
+  duration = pulseIn(echoPin, HIGH);
+  cm = (duration/2) / 29.1;
+  Serial.print(cm);
+  Serial.print("cm");
+  Serial.println();
+  delay(50);
+    char ch = Serial.read(); //Sets ch to command given
+    if (ch == 'A') { //If A is sent 
+      digitalWrite(12, HIGH); //Sets motor A forwards
+      digitalWrite(9, LOW); //Sets motor A break off  
+      analogWrite(3, 255); //Sets motor A speed   
+      digitalWrite(13, HIGH); //Sets motor B forwards
+      digitalWrite(8, LOW); //Sets motor B break off  
+      analogWrite(11, 255); //Sets motor B speed
+  }
+    if (ch =='B') { //If B is sent
+      digitalWrite(12, LOW); //Sets motor A backwards 
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 255); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break off
+      analogWrite(11, 255); //Sets motor B speed
+  }
+    if (ch == 'C') { //If C is sent
+      digitalWrite(12, HIGH); //Sets motor A forward 
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 255); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, HIGH); //Sets motor B forwards
+      analogWrite(11, 0); //Sets motor B speed
+      delay(525);
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+      }
+    if (ch == 'D') { //If D is sent
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, HIGH); //Sets motor B forwards
+      digitalWrite(8, LOW); //Sets motor B break off
+      analogWrite(11, 255); //Sets motor B speed
+      delay(525);
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+
+  } 
+    if (ch == 'E') { //If E is sent
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+  }
+    if (ch == 'F') { //If F is sent
+      digitalWrite(12, LOW); //Sets motor A backwards 
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 255); //Sets motor A speed
+      digitalWrite(13, HIGH); //Sets motor B forwards
+      digitalWrite(9, LOW); //Sets motor B break off
+      analogWrite(11, 255); //Sets motor B speed
+      delay(1177); //Spins for 1.17 seconds
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+
+  }  
+    if (ch == 'G') { //If G is sent
+      digitalWrite(12, HIGH); 
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 255); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(9, LOW); //Sets motor B break off
+      analogWrite(11, 255);//Sets motor B speed
+      delay(1177); //Spins for 1.17 seconds
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+
+  } 
+    if (cm <= 15) { //If less than or equal to 15 cm
+      digitalWrite(12, LOW); //Sets motor A backwards 
+      digitalWrite(9, LOW); //Sets motor A break off
+      analogWrite(3, 255); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break off
+      analogWrite(11, 255); //Sets motor B speed
+      delay(500); //Runs motor back for 0.5 sec
+      digitalWrite(12, LOW); //Sets motor A backwards
+      digitalWrite(9, LOW); //Sets motor A break on
+      analogWrite(3, 0); //Sets motor A speed
+      digitalWrite(13, LOW); //Sets motor B backwards
+      digitalWrite(8, LOW); //Sets motor B break on
+      analogWrite(11, 0); //Sets motor B speed
+    }
+ } while (cm <= 15); //End of do while loop    
+}
